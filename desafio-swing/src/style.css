@@ -1,0 +1,375 @@
+:root {
+  --amarillo: #F5D76E;
+  --luces:#e6d6a0;
+  --beige: #F8E9C9;   
+  --rojo: #D9534F; 
+  --rojo-oscuro: #A93226;  
+  --rojo-claro: #F28B82;
+  --azul-oscuro: #2C2A4A;
+  --azul-opaco:rgba(44, 42, 74, 0.95);
+  --azul-medio:rgba(44, 42, 74, 0.8);
+  --melocoton: #F5B18C;
+}
+
+
+@import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Poppins:wght@400;500;600&family=Playfair+Display:wght@600&family=Raleway:wght@400;600&display=swap');
+
+body {
+  font-family: "Poppins", sans-serif;
+  background-color: var(--fondo);
+  margin: 0;
+  color: var(--azul-oscuro);
+}
+
+.breadcrumbs {
+  position: absolute; 
+  top: 0px;
+  left: 0px;
+  z-index: 10;;
+  border-radius: 6px;
+  font-family: "Bebas Neue", sans-serif;
+  font-size: 20px;
+}
+
+.breadcrumbs ul {
+  display: flex;
+  list-style: none;
+}
+
+.breadcrumbs li {
+  margin-left: 5px;
+}
+
+.breadcrumbs li a {
+  color: white;
+  text-decoration: none;
+}
+
+.breadcrumbs li a:hover {
+  color: var(--amarillo);
+}
+
+.breadcrumbs li:nth-child(even) {
+  color: var(--rojo); 
+}
+
+
+
+header {
+  position: relative;
+  height: 125px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: var(--azul-medio);
+  overflow: hidden;
+}
+
+.foco {
+  position: absolute;
+  width: 250px;
+  height: 150px;
+  border-radius: 50%;
+  filter: blur(40px);
+  pointer-events: none;
+  z-index: 0;
+}
+
+.foco.rojo {
+  background: rgba(245,177,140,0.15);
+  top: -50px;
+  left: -50px;
+}
+
+.foco.amarillo {
+  background: rgba(245,215,110,0.12);
+  bottom: -50px;
+  right: -50px;
+}
+
+
+.logo {
+  height: 180px;
+  width: auto;
+  position: relative;
+  z-index: 1;
+  border-radius: 10px;
+}
+
+
+.titulos {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+
+
+h1 {
+  font-family: "Bebas Neue", sans-serif;
+  font-size: 4rem;
+  letter-spacing: 2px;
+  color: white;
+  margin: 0;
+}
+
+h2 {
+  text-decoration: none;
+  font-weight: 900; 
+  color: var(--azul-oscuro);
+  font-size: 30px;
+  margin: 0;
+}
+
+
+.navbar {
+  position: sticky;
+  top: 0;
+  z-index: 10; 
+  background: var(--azul-opaco);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 0.8rem 2rem;
+  border-top: 3px solid var(--azul-oscuro);
+  border-bottom: 3px solid var(--azul-oscuro);
+}
+
+
+.nav-links {
+  list-style: none;
+  display: flex;
+  gap: 2.5rem;
+  font-family: "Bebas Neue", sans-serif;
+  margin: 0;
+  padding: 0;
+}
+
+.nav-links a {
+  text-decoration: none;
+  color: white;
+  font-weight: 400;
+  font-size: 1.3rem;
+  border-bottom: 3px solid transparent;
+  transition: all 0.3s ease;
+}
+
+.nav-links a:hover {
+  color: var(--amarillo);
+  border-bottom-color: var(--amarillo);
+}
+
+
+
+.nav-links li{
+  color:var(--rojo)
+}
+
+
+
+
+main {
+  background-image: url("../imagenes/baile.png");
+  background-size: cover;       
+  background-position: top center; 
+  background-repeat: no-repeat;
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  gap: 3rem;
+  padding: 3rem;
+  flex-wrap: wrap;
+}
+
+
+
+section {
+  background: rgba(255,255,255,0.85);
+  backdrop-filter: blur(6px);
+  padding: 2rem;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.15);
+  flex: 1 1 400px;
+  max-width: 500px;
+}
+
+
+
+section:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 6px 18px rgba(0,0,0,0.2);
+}
+
+
+.formulario form {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+#clase-opciones,
+#actividad-opciones {
+  display: flex;          
+  flex-direction: column; 
+  gap: 0.8rem;            
+  opacity: 0;
+  max-height: 0;
+  overflow: hidden;
+}
+
+#clase-opciones.show,
+#actividad-opciones.show {
+  opacity: 1;
+  max-height: 1000px;
+}
+
+
+#clase-opciones label,
+#clase-opciones input,
+#clase-opciones select,
+#actividad-opciones label,
+#actividad-opciones input,
+#actividad-opciones select,
+#actividad-opciones textarea {
+  width: 100%;
+}
+
+
+
+
+
+
+input, select, button {
+  padding: 0.8rem;
+  border-radius: 0.5rem;
+  border: 1px solid #ccc;
+  font-family: inherit;
+  font-size: 1rem;
+}
+
+input:focus, select:focus {
+  border-color: var(--rojo);
+}
+
+button {
+  background-color: var(--rojo);
+  color: white;
+  border: none;
+  cursor: pointer;
+  font-weight: 600;
+}
+
+button:hover {
+  background-color: var(--naranja);
+}
+
+
+
+.horario .tarea {
+  background:var(--amarillo);
+  padding: 1rem;
+  border-radius: 0.8rem;
+  margin-bottom: 1rem;
+  border-left: 5px solid var(--azul-oscuro);
+}
+
+.horario .tarea:hover {
+  transform: translateX(5px);
+}
+
+.tabla-horario {
+  width: 100%;
+  border-collapse: collapse;
+  border-radius: 1rem;
+  overflow: hidden;
+  background: rgba(255, 255, 255, 0.75);
+  backdrop-filter: blur(6px);
+  box-shadow: 0 4px 15px rgba(0,0,0,0.15);
+  font-size: 0.95rem;
+  position:relative;
+  top:0px;
+}
+
+.tabla-horario th {
+  background: var(--azul-oscuro);
+  color: white;
+  text-align: left;
+  padding: 0.9rem;
+  font-weight: 600;
+  letter-spacing: 0.5px;
+}
+
+.tabla-horario td {
+  padding: 0.8rem 1rem;
+  border-bottom: 1px solid rgba(0,0,0,0.1);
+}
+
+.tabla-horario tr:hover {
+  background: rgba(242, 234, 121, 0.2);
+}
+
+
+.etiqueta {
+  padding: 0.3rem 0.6rem;
+  border-radius: 0.5rem;
+  color: white;
+  font-size: 0.8rem;
+  font-weight: 600;
+  letter-spacing: 0.5px;
+}
+
+.etiqueta.taster { 
+  background: var(--rojo); 
+}
+.etiqueta.social { 
+  background: var(--amarillo); color: var(--azul-oscuro); 
+}
+.etiqueta.mixmatch { 
+  background: var(--naranja); 
+}
+.etiqueta.concierto { 
+  background: var(--azul-oscuro); 
+}
+
+
+footer.footer {
+  background-color: var(--azul-oscuro);
+  color: white;
+  padding: 2rem 1rem;
+  text-align: center;
+  font-family: "Poppins", sans-serif;
+  box-shadow: 0 -4px 10px rgba(0,0,0,0.1);
+}
+
+footer .footer-content {
+  max-width: 1000px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  align-items: center;
+}
+
+footer .footer-links {
+  list-style: none;
+  display: flex;
+  gap: 1.5rem;
+  padding: 0;
+  margin: 0;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+footer .footer-links a {
+  text-decoration: none;
+  color: var(--beige);
+}
+
+
+
+footer p {
+  margin: 0;
+  font-size: 0.9rem;
+  opacity: 0.8;
+}
+
