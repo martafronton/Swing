@@ -104,15 +104,6 @@ header {
 }
 
 
-
-h1 {
-  font-family: "Bebas Neue", sans-serif;
-  font-size: 4rem;
-  letter-spacing: 2px;
-  color: white;
-  margin: 0;
-}
-
 h2 {
   text-decoration: none;
   font-weight: 900; 
@@ -130,7 +121,7 @@ h2 {
   display: flex;
   justify-content: center;
   align-items: center;
-  padding: 0.8rem 2rem;
+  padding: 2px 4px;
   border-top: 3px solid var(--azul-oscuro);
   border-bottom: 3px solid var(--azul-oscuro);
 }
@@ -139,7 +130,7 @@ h2 {
 .nav-links {
   list-style: none;
   display: flex;
-  gap: 2.5rem;
+  gap: 20px;
   font-family: "Bebas Neue", sans-serif;
   margin: 0;
   padding: 0;
@@ -149,9 +140,8 @@ h2 {
   text-decoration: none;
   color: white;
   font-weight: 400;
-  font-size: 1.3rem;
+  font-size: 22px;
   border-bottom: 3px solid transparent;
-  transition: all 0.3s ease;
 }
 
 .nav-links a:hover {
@@ -173,13 +163,11 @@ main {
   background-size: cover;       
   background-position: top center; 
   background-repeat: no-repeat;
-  min-height: 100vh;
   display: flex;
+  padding:40px;
   justify-content: center;
   align-items: flex-start;
-  gap: 3rem;
-  padding: 3rem;
-  flex-wrap: wrap;
+  gap: 5%;
 }
 
 
@@ -187,7 +175,7 @@ main {
 section {
   background: rgba(255,255,255,0.85);
   backdrop-filter: blur(6px);
-  padding: 2rem;
+  padding: 25px;
   box-shadow: 0 4px 15px rgba(0,0,0,0.15);
   flex: 1 1 400px;
   max-width: 500px;
@@ -204,14 +192,14 @@ section:hover {
 .formulario form {
   display: flex;
   flex-direction: column;
-  gap: 1rem;
+  gap: 15px;
 }
 
 #clase-opciones,
 #actividad-opciones {
   display: flex;          
   flex-direction: column; 
-  gap: 0.8rem;            
+  gap: 10px;            
   opacity: 0;
   max-height: 0;
   overflow: hidden;
@@ -273,9 +261,7 @@ button:hover {
   border-left: 5px solid var(--azul-oscuro);
 }
 
-.horario .tarea:hover {
-  transform: translateX(5px);
-}
+
 
 .tabla-horario {
   width: 100%;
@@ -291,26 +277,33 @@ button:hover {
 }
 
 .tabla-horario th {
-  background: var(--azul-oscuro);
-  color: white;
+  color:var(--azul-oscuro);
   text-align: left;
-  padding: 0.9rem;
+  padding: 5px;
   font-weight: 600;
   letter-spacing: 0.5px;
 }
+
+.tabla-horario .dia{
+  background: var(--azul-oscuro);
+  color: white;
+}
+
+
 
 .tabla-horario td {
   padding: 0.8rem 1rem;
   border-bottom: 1px solid rgba(0,0,0,0.1);
 }
 
-.tabla-horario tr:hover {
+.tabla-horario td:hover {
   background: rgba(242, 234, 121, 0.2);
 }
 
 
 .etiqueta {
-  padding: 0.3rem 0.6rem;
+  background-color:var(--rojo);
+  padding: 2px 4px;
   border-radius: 0.5rem;
   color: white;
   font-size: 0.8rem;
@@ -318,18 +311,6 @@ button:hover {
   letter-spacing: 0.5px;
 }
 
-.etiqueta.taster { 
-  background: var(--rojo); 
-}
-.etiqueta.social { 
-  background: var(--amarillo); color: var(--azul-oscuro); 
-}
-.etiqueta.mixmatch { 
-  background: var(--naranja); 
-}
-.etiqueta.concierto { 
-  background: var(--azul-oscuro); 
-}
 
 
 footer.footer {
@@ -369,7 +350,7 @@ footer .footer-links a {
 
 footer p {
   margin: 0;
-  font-size: 0.9rem;
+  font-size: 10px;
   opacity: 0.8;
 }
 
