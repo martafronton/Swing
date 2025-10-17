@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Gestor de Actividades - Swing Ciudad Real</title>
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Poppins:wght@400;500;600&family=Playfair+Display:wght@600&family=Raleway:wght@400;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="./src/style.css">
+</head>
+<body>
+
+  <nav class="breadcrumbs">
+    <ul>
+      <li><a href="#">Inicio</a></li>
+      <li>›</li>
+      <li><a href="#">Eventos</a></li>
+      <li>›</li>
+      <li><a href="#">Festival Swing 2025</a></li>
+    </ul>
+  </nav>
+  
+  <header>
+    <div class="foco rojo"></div>
+    <div class="foco amarillo"></div>
+    <img class="logo" src="imagenes/logo3.png" alt="Logo Festival Swing Ciudad Real">
+  </header>
+  
+  
+  <nav class="navbar">
+    <ul class="nav-links">
+      <li><a href="#">Inicio</a></li>
+      <li>|</li>
+      <li><a href="#">Profesores</a></li>
+      <li>|</li>
+      <li><a href="#">Contacto</a></li>
+    </ul>
+  </nav>
+  
+  
+
+  <main>
+    <section class="formulario">
+      <h2>Añadir Actividad</h2>
+      <form id="form-actividad">
+        <label for="tipo">Tipo de actividad:</label>
+        <select id="tipo" required>
+          <option value="">--Seleccione--</option>
+          <option value="clase">clase</option>
+          <option value="Taster">Actividad</option>
+        </select>
+    
+        <div id="clase-opciones">
+          <label for="profesores">Profesores/as:</label>
+          <select id="profesores" multiple>
+            <option value="Marta">Marta</option>
+            <option value="Pedro">Pedro</option>
+            <option value="Miguel">Miguel</option>
+          </select>
+    
+          <label for="estilo">Estilo:</label>
+          <input type="text" id="estilo" placeholder="Lindy Hop, Shag...">
+    
+          <label for="nivel">Nivel:</label>
+          <select id="nivel">
+            <option value="Básico">Básico</option>
+            <option value="Intermedio">Intermedio</option>
+            <option value="Avanzado">Avanzado</option>
+          </select>
+    
+          <label for="sala">Sala:</label>
+          <select id="sala" required>
+            <option value="">--Seleccione--</option>
+            <option value="Be Hopper">Be Hopper</option>
+            <option value="New Orleans">New Orleans</option>
+            <option value="Savoy">Savoy</option>
+          </select>
+        </div>
+    
+        <div id="actividad-opciones">
+          <label for="tipo-act">Tipo de actividad:</label>
+          <select id="tipo-act">
+            <option value="Taster">Taster</option>
+            <option value="Social">Social</option>
+            <option value="Concierto">Concierto</option>
+            <option value="Mix & Match">Mix & Match</option>
+          </select>
+    
+          <label for="banda">Banda en directo:</label>
+          <select id="banda">
+            <option value="No">No</option>
+            <option value="Sí">Sí</option>
+          </select>
+    
+          <label for="profesores">Profesores/as:</label>
+          <input type="text" id="profesores" placeholder="Opcional">
+    
+          <label for="estilo-act">Estilo:</label>
+          <input type="text" id="estilo-act" placeholder="Lindy Hop, Shag...">
+    
+          <label for="descripcion">Descripción:</label>
+          <textarea id="descripcion" rows="2"></textarea>
+    
+          <label for="ubicacion">Ubicación:</label>
+          <select id="ubicacion">
+            <option value="Be Hopper">Be Hopper</option>
+            <option value="New Orleans">New Orleans</option>
+            <option value="Savoy">Savoy</option>
+            <option value="Antiguo Casino">Antiguo Casino</option>
+            <option value="Parque de Gasset">Parque de Gasset</option>
+            <option value="Prado">Prado</option>
+          </select>
+        </div>
+    
+        <label for="dia">Día:</label>
+        <select id="dia" required>
+          <option value="1">Viernes</option>
+          <option value="2">Sábado</option>
+          <option value="3">Domingo</option>
+        </select>
+    
+        <label for="hora">Hora:</label>
+        <input type="time" id="hora" min="10:00" max="20:00" required>
+    
+        <button type="submit">Añadir</button>
+      </form>
+    </section>
+
+    <section class="horario">
+      <h2>Horario del Festival</h2>
+      <table class="tabla-horario">
+        <thead>
+          <tr>
+            <th class ="dia" colspan="2">Hora</th>
+            <th class="dia">Viernes</th>
+            <th class="dia">Sábado</th>
+            <th class="dia">Domingo</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><th colspan="2">10:30  11:30</th><td>-</td><td>-</td><td>-</td></tr>
+          <tr><th colspan="2">11:35  12:35</th><td>clase de swing</td><td><span class="etiqueta">Taster</span></td><td>Sala New Orleans</td></tr>
+          <tr><th colspan="2">12:40  13:40</th><td>-</td><td>-</td><td>-</td></tr>
+          <tr><th colspan="2">17:00  18:00</th><td>clase de jazz</td><td><span class="etiqueta">Mix & Match</span></td><td>-</td></tr>
+          <tr><th colspan="2">18:05  19:05</th><td>clase freestyle</td><td><span class="etiqueta">Social</span></td><td>-</td></tr>
+          <tr><th colspan="2">19:10  20:00</th><td>-</td><td>-</td><td>-</td></tr>
+        </tbody>
+      </table>
+
+      
+    </section>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-content">
+      <p>© 2025 Festival Swing Ciudad Real. Todos los derechos reservados.</p>
+      <ul class="footer-links">
+        <li><a href="#">Inicio</a></li>
+        <li><a href="#">Eventos</a></li>
+        <li><a href="#">Artistas</a></li>
+        <li><a href="#">Entradas</a></li>
+        <li><a href="#">Contacto</a></li>
+      </ul>
+    </div>
+  </footer>
+  <script type="module" src="./src/main.js"></script>
+
+
+</body>
+</html>
