@@ -118,8 +118,28 @@
           <option value="3">Domingo</option>
         </select>
     
-        <label for="hora">Hora:</label>
-        <input type="time" id="hora" min="10:00" max="20:00" required>
+        <label for="hora">Hora inicio:</label>
+<select id="hora" required>
+  <option value="">--Seleccione--</option>
+  <option value="10:30">10:30</option>
+  <option value="11:35">11:35</option>
+  <option value="12:40">12:40</option>
+  <option value="17:00">17:00</option>
+  <option value="18:05">18:05</option>
+  <option value="19:10">19:10</option>
+</select>
+
+<label for="hora-fin">Hora fin:</label>
+<select id="hora-fin" required>
+  <option value="">--Seleccione--</option>
+  <option value="11:30">11:30</option>
+  <option value="12:35">12:35</option>
+  <option value="13:40">13:40</option>
+  <option value="18:00">18:00</option>
+  <option value="19:05">19:05</option>
+  <option value="20:00">20:00</option>
+</select>
+
     
         <button type="submit">Añadir</button>
       </form>
