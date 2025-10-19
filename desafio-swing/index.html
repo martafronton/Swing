@@ -45,7 +45,7 @@
         <label for="tipo">Tipo de actividad:</label>
         <select id="tipo" required>
           <option value="">--Seleccione--</option>
-          <option value="Clase">Clase</option>
+          <option value="clase">clase</option>
           <option value="Taster">Actividad</option>
         </select>
     
@@ -91,8 +91,8 @@
             <option value="Sí">Sí</option>
           </select>
     
-          <label for="profesores-act">Profesores/as:</label>
-          <input type="text" id="profesores-act" placeholder="Opcional">
+          <label for="profesores">Profesores/as:</label>
+          <input type="text" id="profesores" placeholder="Opcional">
     
           <label for="estilo-act">Estilo:</label>
           <input type="text" id="estilo-act" placeholder="Lindy Hop, Shag...">
@@ -113,13 +113,33 @@
     
         <label for="dia">Día:</label>
         <select id="dia" required>
-          <option value="Viernes">Viernes</option>
-          <option value="Sábado">Sábado</option>
-          <option value="Domingo">Domingo</option>
+          <option value="1">Viernes</option>
+          <option value="2">Sábado</option>
+          <option value="3">Domingo</option>
         </select>
     
-        <label for="hora">Hora:</label>
-        <input type="time" id="hora" min="20:00" max="20:00" required>
+        <label for="hora">Hora inicio:</label>
+<select id="hora" required>
+  <option value="">--Seleccione--</option>
+  <option value="10:30">10:30</option>
+  <option value="11:35">11:35</option>
+  <option value="12:40">12:40</option>
+  <option value="17:00">17:00</option>
+  <option value="18:05">18:05</option>
+  <option value="19:10">19:10</option>
+</select>
+
+<label for="hora-fin">Hora fin:</label>
+<select id="hora-fin" required>
+  <option value="">--Seleccione--</option>
+  <option value="11:30">11:30</option>
+  <option value="12:35">12:35</option>
+  <option value="13:40">13:40</option>
+  <option value="18:00">18:00</option>
+  <option value="19:05">19:05</option>
+  <option value="20:00">20:00</option>
+</select>
+
     
         <button type="submit">Añadir</button>
       </form>
@@ -130,19 +150,19 @@
       <table class="tabla-horario">
         <thead>
           <tr>
-            <th colspan="2">Hora</th>
-            <th>Viernes</th>
-            <th>Sábado</th>
-            <th>Domingo</th>
+            <th class ="dia" colspan="2">Hora</th>
+            <th class="dia">Viernes</th>
+            <th class="dia">Sábado</th>
+            <th class="dia">Domingo</th>
           </tr>
         </thead>
         <tbody>
-          <tr><td colspan="2">10:30  11:30</td><td>-</td><td>-</td><td>-</td></tr>
-          <tr><td colspan="2">11:35  12:35</td><td>Clase de swing</td><td><span class="etiqueta taster">Taster</span></td><td>Sala New Orleans</td></tr>
-          <tr><td colspan="2">12:40  13:40</td><td>-</td><td>-</td><td>-</td></tr>
-          <tr><td colspan="2">17:00  18:00</td><td>Charlas de jazz</td><td><span class="etiqueta mixmatch">Mix & Match</span></td></tr>
-          <tr><td colspan="2">18:05  19:05</td><td>Ensayo conjunto</td><td><span class="etiqueta social">Social</span></td></tr>
-          <tr><td colspan="2">19:10  20:00</td><td>-</td><td>-</td><td>-</td></tr>
+          <tr><th colspan="2">10:30  11:30</th><td>-</td><td>-</td><td>-</td></tr>
+          <tr><th colspan="2">11:35  12:35</th><td>clase de swing</td><td><span class="etiqueta">Taster</span></td><td>Sala New Orleans</td></tr>
+          <tr><th colspan="2">12:40  13:40</th><td>-</td><td>-</td><td>-</td></tr>
+          <tr><th colspan="2">17:00  18:00</th><td>clase de jazz</td><td><span class="etiqueta">Mix & Match</span></td><td>-</td></tr>
+          <tr><th colspan="2">18:05  19:05</th><td>clase freestyle</td><td><span class="etiqueta">Social</span></td><td>-</td></tr>
+          <tr><th colspan="2">19:10  20:00</th><td>-</td><td>-</td><td>-</td></tr>
         </tbody>
       </table>
 
