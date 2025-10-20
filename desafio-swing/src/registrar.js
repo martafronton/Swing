@@ -5,7 +5,6 @@ export function registrarActividad() {
   const horaInicioSelect = document.getElementById('hora');
   const horaFinSelect = document.getElementById('hora-fin');
 
-
   function actualizarHorasDisponibles() {
     const dia = parseInt(diaSelect.value);
     const horasInicio = [];
@@ -13,7 +12,7 @@ export function registrarActividad() {
 
     for (let fila of tabla.rows) {
       const horaRango = fila.cells[0].textContent.trim(); 
-      const partes = horaRango.split(' ');
+      const partes = horaRango.split(/\s+/);
       const hInicio = partes[0];
       const hFin = partes[1];
       const celdaDia = fila.cells[dia];
@@ -36,9 +35,8 @@ export function registrarActividad() {
       optionFin.value = horasFin[i];
       optionFin.textContent = horasFin[i];
       horaFinSelect.appendChild(optionFin);
-    };
+    }
   }
-
 
   diaSelect.addEventListener('change', actualizarHorasDisponibles);
   window.addEventListener('DOMContentLoaded', actualizarHorasDisponibles);
@@ -47,7 +45,7 @@ export function registrarActividad() {
     e.preventDefault();
 
     const tipo = document.getElementById('tipo').value;
-    const dia = document.getElementById('dia').value; // 1=Viernes, 2=Sábado, 3=Domingo
+    const dia = document.getElementById('dia').value;
     const hora_inicio = document.getElementById('hora').value;
     const hora_fin = document.getElementById('hora-fin').value;
     let nombre = tipo;
@@ -60,26 +58,36 @@ export function registrarActividad() {
       nombre += `: ${document.getElementById('tipo-act').value}`;
     }
 
-    let filaEncontrada = null;
-    const filas = tabla.rows;
+    const filas = Array.from(tabla.rows);
+    const indexInicio = filas.findIndex(f => f.cells[0].textContent.trim().startsWith(hora_inicio));
+    const indexFin = filas.findIndex(f => f.cells[0].textContent.trim().includes(hora_fin));
 
-    for (let i = 0; i < filas.length; i++) {
-      const primeraCelda = filas[i].cells[0];
-      const textoHora = primeraCelda.textContent.trim();
-      if (textoHora === `${hora_inicio}  ${hora_fin}`){
-        filaEncontrada = filas[i];
-        break;
-      }
+    if (indexInicio === -1 || indexFin === -1 || indexFin < indexInicio) {
+      alert("Rango de horas inválido");
+      return;
     }
 
-    if (filaEncontrada) {
-      const colIndex = parseInt(dia);
-      filaEncontrada.cells[colIndex].textContent = nombre;
-      actualizarHorasDisponibles();
-    } else {
-      alert("No existe fila para esa hora en el horario");
+    const colIndex = parseInt(dia);
+    const filaInicio = filas[indexInicio];
+    const celdasOcupadas = filas.slice(indexInicio + 1, indexFin + 1).map(f => f.cells[colIndex]);
+
+  
+    if (celdasOcupadas.some(c => c.textContent.trim() !== '-' && c.textContent.trim() !== '')) {
+      alert("Alguna hora en ese rango ya está ocupada");
+      return;
     }
 
+
+    const celdaInicio = filaInicio.cells[colIndex];
+    celdaInicio.textContent = nombre;
+    celdaInicio.rowSpan = (indexFin - indexInicio + 1);
+
+
+    for (let i = indexInicio + 1; i <= indexFin; i++) {
+      filas[i].deleteCell(colIndex);
+    }
+
+    actualizarHorasDisponibles();
     form.reset();
   });
 }
