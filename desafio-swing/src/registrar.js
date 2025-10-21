@@ -1,42 +1,28 @@
-export function registrarActividad() {
-  const form = document.getElementById('form-actividad');
+import { guardarHorarioEnLocalStorage } from './horario.js';
+
+export function actualizarHorasDisponibles() {
   const tabla = document.querySelector('.tabla-horario tbody');
   const diaSelect = document.getElementById('dia');
   const horaInicioSelect = document.getElementById('hora');
   const horaFinSelect = document.getElementById('hora-fin');
 
-  function actualizarHorasDisponibles() {
-    const dia = parseInt(diaSelect.value);
-    const horasInicio = [];
-    const horasFin = [];
+  const dia = parseInt(diaSelect.value);
+  horaInicioSelect.innerHTML = '<option value="">--Seleccione--</option>';
+  horaFinSelect.innerHTML = '<option value="">--Seleccione--</option>';
 
-    for (let fila of tabla.rows) {
-      const horaRango = fila.cells[0].textContent.trim(); 
-      const partes = horaRango.split(/\s+/);
-      const hInicio = partes[0];
-      const hFin = partes[1];
-      const celdaDia = fila.cells[dia];
-      if (celdaDia.textContent.trim() === '-' || celdaDia.textContent.trim() === '') {
-        horasInicio.push(hInicio);
-        horasFin.push(hFin);
-      }
-    }
-
-    horaInicioSelect.innerHTML = '<option value="">--Seleccione--</option>';
-    horaFinSelect.innerHTML = '<option value="">--Seleccione--</option>';
-
-    for (let i = 0; i < horasInicio.length; i++) {
-      const optionInicio = document.createElement('option');
-      optionInicio.value = horasInicio[i];
-      optionInicio.textContent = horasInicio[i];
-      horaInicioSelect.appendChild(optionInicio);
-    
-      const optionFin = document.createElement('option');
-      optionFin.value = horasFin[i];
-      optionFin.textContent = horasFin[i];
-      horaFinSelect.appendChild(optionFin);
+  for (let fila of tabla.rows) {
+    const [hInicio, hFin] = fila.cells[0].textContent.trim().split(/\s+/);
+    const celdaDia = fila.cells[dia];
+    if (celdaDia.textContent.trim() === '-' || celdaDia.textContent.trim() === '') {
+      horaInicioSelect.innerHTML += `<option value="${hInicio}">${hInicio}</option>`;
+      horaFinSelect.innerHTML += `<option value="${hFin}">${hFin}</option>`;
     }
   }
+}
+
+export function registrarActividad() {
+  const form = document.getElementById('form-actividad');
+  const diaSelect = document.getElementById('dia');
 
   diaSelect.addEventListener('change', actualizarHorasDisponibles);
   window.addEventListener('DOMContentLoaded', actualizarHorasDisponibles);
@@ -44,49 +30,77 @@ export function registrarActividad() {
   form.addEventListener('submit', e => {
     e.preventDefault();
 
-    const tipo = document.getElementById('tipo').value;
-    const dia = document.getElementById('dia').value;
-    const hora_inicio = document.getElementById('hora').value;
-    const hora_fin = document.getElementById('hora-fin').value;
-    let nombre = tipo;
+    const tabla = document.querySelector('.tabla-horario tbody');
+    const horaInicioSelect = document.getElementById('hora');
+    const horaFinSelect = document.getElementById('hora-fin');
 
-    if (tipo.toLowerCase() === 'clase') {
+    const tipo = document.getElementById('tipo').value;
+    const dia = parseInt(diaSelect.value);
+    const horaInicio = horaInicioSelect.value;
+    const horaFin = horaFinSelect.value;
+
+    let nombre;
+    if (tipo === 'clase') {
       const estilo = document.getElementById('estilo').value;
       const nivel = document.getElementById('nivel').value;
-      nombre += `: ${estilo} (${nivel})`;
+      nombre = `Clase: ${estilo} (${nivel})`;
     } else {
-      nombre += `: ${document.getElementById('tipo-act').value}`;
+      const tipoAct = document.getElementById('tipo-act').value;
+      nombre = `Actividad: ${tipoAct}`;
     }
 
-    const filas = Array.from(tabla.rows);
-    const indexInicio = filas.findIndex(f => f.cells[0].textContent.trim().startsWith(hora_inicio));
-    const indexFin = filas.findIndex(f => f.cells[0].textContent.trim().includes(hora_fin));
+    const filas = tabla.rows;
+    let indexInicio = -1;
+    let indexFin = -1;
+
+    for (let i = 0; i < filas.length; i++) {
+      const textoHora = filas[i].cells[0].textContent.trim();
+      if (textoHora.startsWith(horaInicio)) indexInicio = i;
+      if (textoHora.includes(horaFin)) indexFin = i;
+    }
 
     if (indexInicio === -1 || indexFin === -1 || indexFin < indexInicio) {
       alert("Rango de horas inválido");
       return;
     }
 
-    const colIndex = parseInt(dia);
     const filaInicio = filas[indexInicio];
-    const celdasOcupadas = filas.slice(indexInicio + 1, indexFin + 1).map(f => f.cells[colIndex]);
+    const celdaInicio = filaInicio.cells[dia];
+    const celdasIntermedias = [];
 
-  
-    if (celdasOcupadas.some(c => c.textContent.trim() !== '-' && c.textContent.trim() !== '')) {
+    for (let i = indexInicio + 1; i <= indexFin; i++) {
+      const fila = filas[i];
+      const celda = fila.cells[dia];
+      celdasIntermedias.push(celda);
+    }
+
+    if (celdasIntermedias.some(c => c.textContent.trim() !== '-' && c.textContent.trim() !== '')) {
       alert("Alguna hora en ese rango ya está ocupada");
       return;
     }
 
-
-    const celdaInicio = filaInicio.cells[colIndex];
-    celdaInicio.textContent = nombre;
-    celdaInicio.rowSpan = (indexFin - indexInicio + 1);
-
+    const detalles = `
+  <strong>${nombre}</strong><br>
+  ${tipo === 'clase'
+    ? `Profesores: ${Array.from(document.getElementById('profesores').selectedOptions).map(opt => opt.value).join(', ') || 'Ninguno'}<br>
+       Sala: ${document.getElementById('sala').value}`
+    : `Tipo: ${document.getElementById('tipo-act').value}<br>
+       Banda: ${document.getElementById('banda').value}<br>
+       Profesores: ${document.getElementById('profesores2').value || 'Ninguno'}<br>
+       Estilo: ${document.getElementById('estilo-act').value || 'Sin estilo'}<br>
+       Descripción: ${document.getElementById('descripcion').value || 'Sin descripción'}<br>
+       Ubicación: ${document.getElementById('ubicacion').value}`
+  }
+`;
+    celdaInicio.setAttribute('data-info', detalles);
+    celdaInicio.innerHTML = `<div><span class="etiqueta">${nombre}</span></div>`;
+    celdaInicio.rowSpan = indexFin - indexInicio + 1;
 
     for (let i = indexInicio + 1; i <= indexFin; i++) {
-      filas[i].deleteCell(colIndex);
+      filas[i].deleteCell(dia);
     }
 
+    guardarHorarioEnLocalStorage();
     actualizarHorasDisponibles();
     form.reset();
   });

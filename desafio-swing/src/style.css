@@ -296,9 +296,7 @@ button:hover {
   border-bottom: 1px solid rgba(0,0,0,0.1);
 }
 
-.tabla-horario td:hover {
-  background: rgba(242, 234, 121, 0.2);
-}
+
 
 
 .etiqueta {
@@ -309,6 +307,33 @@ button:hover {
   font-size: 0.8rem;
   font-weight: 600;
   letter-spacing: 0.5px;
+}
+
+.etiqueta:hover{
+  background-color: rgba(242, 234, 121, 0.815);
+  color:var(--azul-oscuro)
+
+}
+
+.info {
+  position: absolute;
+  background: #fff;
+  border: 1px solid var(--azul-oscuro);
+  padding: 20px 30px;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.2);
+  z-index: 1000;
+  max-width: 300px;
+  font-size: 14px;
+  display: none;
+}
+.info button {
+  position: absolute;
+  top: 4px;
+  right: 6px;
+  background: transparent;
+  border: none;
+  font-size: 16px;
+  cursor: pointer;
 }
 
 
