@@ -2,6 +2,8 @@ export function initFormulario() {
     const tipoSelect = document.getElementById('tipo');
     const claseOpciones = document.getElementById('clase-opciones');
     const actividadOpciones = document.getElementById('actividad-opciones');
+    let  profesores = document.getElementById("profesores2")
+    let descripcion = document.getElementById("descripcion")
   
     claseOpciones.classList.remove('show');
     actividadOpciones.classList.remove('show');
@@ -21,7 +23,7 @@ export function initFormulario() {
         actividadOpciones.classList.add('show');
         actividadOpciones.querySelectorAll('input:not(#profesores2), select, textarea:not(#descripcion)') 
           .forEach(campo => campo.required = true);
-                    profesores = document.getElementById("profesores2")
+                  profesores = document.getElementById("profesores2")
         profesores.required = false;
         descripcion = document.getElementById("descripcion")
         descripcion.required = false;

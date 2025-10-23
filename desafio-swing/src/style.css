@@ -164,35 +164,42 @@ main {
   background-position: top center; 
   background-repeat: no-repeat;
   display: flex;
-  padding:40px;
+  padding: 40px;
   justify-content: center;
   align-items: flex-start;
   gap: 5%;
 }
 
-
-
-section {
-  background: rgba(255,255,255,0.85);
+section.formulario {
+  background: rgba(255, 255, 255, 0.85);
   backdrop-filter: blur(6px);
   padding: 25px;
-  box-shadow: 0 4px 15px rgba(0,0,0,0.15);
-  flex: 1 1 400px;
-  max-width: 500px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.15);
+  flex: 1 1 30%;
+  max-width: 600px;
+  min-width: 400px;
 }
 
-
+section.horario {
+  background: rgba(255, 255, 255, 0.85);
+  backdrop-filter: blur(6px);
+  padding: 50px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.15);
+  flex: 2 1 65%;
+  max-width: 800px;
+  min-width: 300px;
+}
 
 section:hover {
   transform: translateY(-5px);
-  box-shadow: 0 6px 18px rgba(0,0,0,0.2);
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.2);
 }
 
 
 .formulario form {
   display: flex;
   flex-direction: column;
-  gap: 15px;
+  gap: 3px;
 }
 
 #clase-opciones,
@@ -223,10 +230,6 @@ section:hover {
 }
 
 
-
-
-
-
 input, select, button {
   padding: 0.8rem;
   border-radius: 0.5rem;
@@ -247,8 +250,12 @@ button {
   font-weight: 600;
 }
 
-button:hover {
-  background-color: var(--naranja);
+#submit{
+  margin-top:2%;
+}
+
+#submit:hover {
+  background-color: var(--azul-medio);
 }
 
 
@@ -261,6 +268,10 @@ button:hover {
   border-left: 5px solid var(--azul-oscuro);
 }
 
+.tabla-horario td,
+.tabla-horario th {
+  border: 1px solid rgba(0, 0, 0, 0.1);
+}
 
 
 .tabla-horario {
@@ -292,7 +303,7 @@ button:hover {
 
 
 .tabla-horario td {
-  padding: 0.8rem 1rem;
+  padding: 25px 70px;
   border-bottom: 1px solid rgba(0,0,0,0.1);
 }
 
@@ -327,9 +338,7 @@ button:hover {
   display: none;
 }
 .info button {
-  position: absolute;
-  top: 4px;
-  right: 6px;
+  color:var(--azul-oscuro);
   background: transparent;
   border: none;
   font-size: 16px;
