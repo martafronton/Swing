@@ -8,10 +8,3 @@ document.addEventListener('DOMContentLoaded', () => {
   initFormulario();
   registrarActividad();
 });
-
-
-
-
-
-
-
