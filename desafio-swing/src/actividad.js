@@ -14,6 +14,9 @@ export class Actividad {
   toHTML() {
     const div = document.createElement('div');
     div.classList.add('actividad');
+    if(this.tipo==='Clase'){
+      div.classList.add('clase');
+    }
 
     const detalles = `
       <strong>${this.nombre}</strong><br>
@@ -32,9 +35,7 @@ export class Actividad {
     span.classList.add('etiqueta');
     span.textContent = this.nombre;
 
-    if (this.nombre.startsWith('Clase')) {
-      span.classList.add('clase');
-    }
+
     div.appendChild(span);
     div.addEventListener('click', e => {
       e.stopPropagation();

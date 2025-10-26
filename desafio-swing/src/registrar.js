@@ -1,61 +1,81 @@
-import { guardarHorarioEnLocalStorage, ensureMarcadores, recomputeLayouts } from './horario.js';
-import { initHorario } from './horario.js';
+import { guardarHorarioEnLocalStorage, obtenerMarcadores, distribuirActividades } from './horario.js';
 import { Actividad } from './actividad.js';
 import { initFormulario } from './formulario.js';
 import { mostrarAlerta } from './informar.js';
+const tabla = document.querySelector('.tabla-horario tbody');
 
+const form = document.getElementById('form-actividad');
+const diaSelect = document.getElementById('dia');
+const salaSelect = document.getElementById('sala');
+const ubicacionSelect = document.getElementById('ubicacion');
+const horaInicioSelect = document.getElementById('hora');
+const horaFinSelect = document.getElementById('hora-fin');
+const SALAS = ['Be Hopper', 'New Orleans', 'Savoy'];
 
 export function actualizarHorasDisponibles() {
-  const tabla = document.querySelector('.tabla-horario tbody');
-  const dia = parseInt(document.getElementById('dia').value);
-  const sala = document.getElementById('sala').value || '';
-  const ubicacion = document.getElementById('ubicacion').value || '';
-  const horaInicioSelect = document.getElementById('hora');
-  const horaFinSelect = document.getElementById('hora-fin');
+  const dia = parseInt(diaSelect.value);
+  const sala = salaSelect.value || '';
+  const ubicacion = ubicacionSelect.value || '';
+
 
   horaInicioSelect.innerHTML = '<option value="">--Seleccione--</option>';
   horaFinSelect.innerHTML = '<option value="">--Seleccione--</option>';
 
   const filas = tabla.rows;
+  const esViernes = dia === 1;
+  let start = 0;
+  if (esViernes) {
+    start = filas.length - 3;
+  }
 
-  for (let i = 0; i < filas.length; i++) {
+  const horasDisponibles = [];
+
+  for (let i = start; i < filas.length; i++) {
     const fila = filas[i];
     if (!fila.cells[dia]) continue;
 
     const textoHora = fila.cells[0].textContent.trim();
-    const partes = textoHora.split(/\s+/);
-    const hInicio = partes[0];
-    const hFin = partes[1];
+    const [hInicio, hFin] = textoHora.split(/\s+/);
 
     let ocupada = false;
     const celda = fila.cells[dia];
     const actividades = celda.querySelectorAll('.actividad, .actividad-oculta');
 
-    for (let j = 0; j < actividades.length; j++) {
-      const elemento = actividades[j];
-      let lugar;
-      //Marcadores para las actividades que duran más de una hora
-      if (elemento.classList.contains('actividad-oculta')) {
-        lugar = elemento._ubicacion || '';
-      } else {
-        lugar = Actividad.crearActividad(elemento).ubicacion;
-      }
-      if (lugar === ubicacion || lugar === sala) {
+    for (let elemento of actividades) {
+      const lugar = elemento.classList.contains('actividad-oculta')
+        ? elemento._ubicacion || ''
+        : Actividad.crearActividad(elemento).ubicacion;
+
+      if ((lugar === ubicacion || lugar === sala) && SALAS.includes(lugar)) {
         ocupada = true;
         break;
       }
     }
 
     if (!ocupada) {
+      horasDisponibles.push({ hInicio, hFin });
       horaInicioSelect.innerHTML += `<option value="${hInicio}">${hInicio}</option>`;
-      horaFinSelect.innerHTML += `<option value="${hFin}">${hFin}</option>`;
     }
   }
+
+  function actualizarHoraFin() {
+    const horaInicio = horaInicioSelect.value;
+    horaFinSelect.innerHTML = '<option value="">--Seleccione--</option>';
+    for (let { hFin } of horasDisponibles) {
+      if (!horaInicio || hFin > horaInicio) {
+        horaFinSelect.innerHTML += `<option value="${hFin}">${hFin}</option>`;
+      }
+    }
+  }
+  horaInicioSelect.addEventListener('change', actualizarHoraFin);
 }
 
 
+
+
+
+
 function verificarUbicacion(indexInicio, indexFin, dia, ubicacion) {
-  const tabla = document.querySelector('.tabla-horario tbody');
   for (let i = indexInicio; i <= indexFin; i++) {
     const celda = tabla.rows[i].cells[dia];
     if (!celda) continue;
@@ -71,7 +91,6 @@ function verificarUbicacion(indexInicio, indexFin, dia, ubicacion) {
 
 
 function calcularPosicion(indexInicio, indexFin, dia) {
-  const tabla = document.querySelector('.tabla-horario tbody');
   let actividadesTotales = 0;
   for (let i = indexInicio; i <= indexFin; i++) {
     const celda = tabla.rows[i].cells[dia];
@@ -120,11 +139,19 @@ function contenidoCeldas(tabla, dia, indexInicio, indexFin) {
   return false;
 }
 
+function informacionActividad(){
+  let infoExtra = '';
+  let duracion = horaFinSelect.value - horaInicioSelect.value;
+
+    infoExtra = 'Banda: ' + document.getElementById('banda').value + '<br>' +
+                'Profesores: ' + (document.getElementById('profesores2').value || 'Ninguno') + '<br>' +
+                'Estilo: ' + (document.getElementById('estilo-act').value || 'Sin estilo') + '<br>' +
+                'Descripción: ' + (document.getElementById('descripcion').value || 'Sin descripción')+'<br>' 
+                
+    return infoExtra;
+}
+
 export function registrarActividad() {
-  const form = document.getElementById('form-actividad');
-  const diaSelect = document.getElementById('dia');
-  const salaSelect = document.getElementById('sala');
-  const ubicacionSelect = document.getElementById('ubicacion');
 
   diaSelect.addEventListener('change', actualizarHorasDisponibles);
   salaSelect.addEventListener('change', actualizarHorasDisponibles);
@@ -143,11 +170,12 @@ export function registrarActividad() {
     let nombre = '';
     if (tipo === 'clase') {
       const estilo = document.getElementById('estilo').value;
-      const nivel = document.getElementById('nivel').value;
-      nombre = 'Clase: ' + estilo + ' (' + nivel + ')';
+      const sala = document.getElementById('sala').value;
+      nombre = 'Clase: ' + estilo + ' (' + sala + ')';
     } else {
       const tipoAct = document.getElementById('tipo-act').value;
-      nombre = 'Actividad: ' + tipoAct;
+      const ubicacion = document.getElementById('ubicacion').value;
+      nombre = tipoAct + ' (' + ubicacion + ')';
     }
 
     const filas = tabla.rows;
@@ -169,11 +197,7 @@ export function registrarActividad() {
     let ubicacion = ubicacionSelect.value;
     if (ubicacion === '') ubicacion = sala;
 
-    const hayConflicto = verificarUbicacion(indexInicio, indexFin, dia, ubicacion);
-    if (hayConflicto) {
-      const confirmar = confirm("Ya hay una actividad en la misma ubicación en ese horario. ¿Desea continuar?");
-      if (!confirmar) return;
-    }
+     let duracion= indexFin - indexInicio + 1
 
     let infoExtra = '';
     if (tipo === 'clase') {
@@ -185,16 +209,15 @@ export function registrarActividad() {
         profesores += opciones[i].value;
       }
       if (profesores === '') profesores = 'Ninguno';
-      infoExtra = 'Profesores: ' + profesores;
+      infoExtra = 'Profesores: ' + profesores+'<br>' +
+      'Duracion en horas: '+duracion;
       ubicacion = sala;
     } else {
-      infoExtra = 'Banda: ' + document.getElementById('banda').value + '<br>' +
-                  'Profesores: ' + (document.getElementById('profesores2').value || 'Ninguno') + '<br>' +
-                  'Estilo: ' + (document.getElementById('estilo-act').value || 'Sin estilo') + '<br>' +
-                  'Descripción: ' + (document.getElementById('descripcion').value || 'Sin descripción');
+      infoExtra = informacionActividad();
+      infoExtra += '<br>Duracion en horas: '+duracion;
     }
 
-    const duracion = indexFin - indexInicio + 1;
+    
     const alturaBase = 50;
     const nivel = calcularPosicion(indexInicio, indexFin, dia);
 
@@ -208,8 +231,7 @@ export function registrarActividad() {
     elemento._tipo = tipo;
     elemento._ubicacion = ubicacion;
 
-    elemento.style.position = 'absolute';
-    elemento.style.top = '0';
+
     elemento.style.left = (nivel * 5) + 'px';
     elemento.style.width = 'calc(100% - ' + (nivel * 5) + 'px)';
     elemento.style.height = (alturaBase * duracion) + 'px';
@@ -222,7 +244,6 @@ export function registrarActividad() {
 
     if (!hayContenidoEnRango) {
       celdaInicial.appendChild(elemento);
-      elemento.classList.remove('actividad-arriba', 'actividad-solapada', 'actividad-debajo');
 
       for (let i = 1; i < duracion; i++) {
         const idx = indexInicio + i;
@@ -233,11 +254,6 @@ export function registrarActividad() {
         marcador.className = 'actividad actividad-oculta';
         marcador._ubicacion = ubicacion;
         marcador._tipo = tipo;
-        marcador.style.visibility = 'hidden';
-        marcador.style.position = 'absolute';
-        marcador.style.height = '0';
-        marcador.style.width = '0';
-        marcador.style.overflow = 'hidden';
         celdaIntermedia.appendChild(marcador);
       }
     } else {
@@ -262,18 +278,9 @@ export function registrarActividad() {
 
       if (visiblesEnCelda.length > 0 && !empiezaDentro) {
         celdaInicial.insertBefore(elemento, visiblesEnCelda[0]);
-        elemento.classList.remove('actividad-debajo', 'actividad-solapada');
-        elemento.style.background = '';
-        elemento.style.color = '';
-        elemento.style.borderColor = '';
-        const etiqueta = elemento.querySelector('.etiqueta');
-        if (etiqueta) { etiqueta.style.background = ''; etiqueta.style.color = ''; }
-        elemento.classList.add('actividad-arriba');
-        visiblesEnCelda.forEach(v => v.classList.remove('actividad-arriba'));
-      } else {
-        celdaInicial.appendChild(elemento);
-        elemento.classList.remove('actividad-arriba', 'actividad-solapada');
-        elemento.classList.add('actividad-debajo');
+        elemento.classList.remove('actividad-solapada');
+       } else {
+        celdaInicial.appendChild(elemento);;
       }
 
       
@@ -286,26 +293,21 @@ export function registrarActividad() {
         marcador.className = 'actividad actividad-oculta';
         marcador._ubicacion = ubicacion;
         marcador._tipo = tipo;
-        marcador.style.visibility = 'hidden';
-        marcador.style.position = 'absolute';
-        marcador.style.height = '0';
-        marcador.style.width = '0';
-        marcador.style.overflow = 'hidden';
         celdaIntermedia.appendChild(marcador);
 
         const visibles = Array.from(celdaIntermedia.querySelectorAll('.actividad'))
           .filter(el => !el.classList.contains('actividad-oculta'));
         for (const v of visibles) {
           const fIni = v._filaInicio ?? v.parentElement?.parentElement?.rowIndex;
-          const d = v._duracion ?? 1;
+          const d = v._duracion 
           if (fIni < idx && idx < fIni + d) v.classList.add('actividad-solapada');
         }
       }
     }
 
 
-    ensureMarcadores(tabla);
-    recomputeLayouts(tabla);
+    obtenerMarcadores(tabla);
+    distribuirActividades(tabla);
     guardarHorarioEnLocalStorage();
     actualizarHorasDisponibles();
     initFormulario();
