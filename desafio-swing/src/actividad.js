@@ -1,5 +1,5 @@
-import { guardarHorarioEnLocalStorage } from './horario.js';
-import { actualizarHorasDisponibles } from './registrar.js';
+import { guardarHorarioEnLocalStorage } from './storageHorario.js';
+import { actualizarHorasDisponibles } from './gestorHoras.js';
 
 let actividadArrastrada = null;
 

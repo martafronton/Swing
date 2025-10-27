@@ -4,12 +4,10 @@
     --beige: #F8E9C9;
     --rojo: #D9534F;
     --rojo-oscuro: #A93226;
-    --rojo-claro: #F28B82;
     --azul-oscuro: #2C2A4A;
     --azul-opaco: rgba(44,42,74,0.95);
     --azul-claro: rgba(64, 61, 99, 0.283);
     --azul-medio: rgba(44,42,74,0.8);
-    --melocoton: #a99419;
     --fondo:#fff;
   
 
@@ -249,13 +247,6 @@
     overflow: hidden;
   }
   
-
-
-  
-
-
-
-
   .actividad.clase {
     background: var(--azul-medio);
     border:2px solid var(--azul-oscuro);
@@ -292,7 +283,7 @@
     position: fixed;
     top: 20px;
     right: 20px;
-    background: #f8e9c9;
+    background: #fedd97;
     color: var(--azul-oscuro);
     padding: 1rem 1.5rem;
     border-radius: 0.5rem;
@@ -303,7 +294,7 @@
     align-items: center;
     gap: 1rem;
   }
-  .alerta-error { background: var(--rojo-claro); }
+  .alerta-error { background: var(--rojo); }
   .alerta-exito { background: var(--amarillo); }
   .cerrar-alerta { background: none; border: none; font-size: 1.2rem; cursor: pointer; }
   
