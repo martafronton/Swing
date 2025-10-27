@@ -211,32 +211,25 @@ export function prepararDrop(celda, tabla) {
 
   function onDrop(e) {
     e.preventDefault();
-
+  
     var actividadArrastrada = Actividad.getActividadArrastrada();
     if (!actividadArrastrada) return;
-
-    if (celda.contains(actividadArrastrada)) return;
-
+  
     if (celda.classList.contains('ocupada')) {
       mostrarAlerta('El evento no está disponible a esa hora', 'error');
       return;
     }
-
-
+  
     var visiblesDestino = getVisiblesInCell(celda);
-
-    var ubicacionArrastrada = actividadArrastrada._ubicacion;
-    if (!ubicacionArrastrada) ubicacionArrastrada = '';
-    var tipoArrastrado = actividadArrastrada._tipo;
-    if (!tipoArrastrado) tipoArrastrado = '';
-
-
+  
+    var ubicacionArrastrada = actividadArrastrada._ubicacion || '';
+    var tipoArrastrado = actividadArrastrada._tipo || '';
+  
     for (var aI = 0; aI < visiblesDestino.length; aI++) {
       var otra = visiblesDestino[aI];
-      var ubicacionOtra = otra._ubicacion;
-      if (!ubicacionOtra) ubicacionOtra = '';
-
-      if (ubicacionArrastrada === ubicacionOtra) {
+      var ubicacionOtra = otra._ubicacion || '';
+  
+      if (ubicacionArrastrada === ubicacionOtra && otra !== actividadArrastrada) {
         mostrarAlerta('Ya existe una actividad en esta ubicación.', 'error');
         return;
       }
@@ -245,40 +238,75 @@ export function prepararDrop(celda, tabla) {
         return;
       }
     }
-
-
+  
     var origen = obtenerPosicionOriginal(actividadArrastrada);
     var filaInicio = origen.filaInicio;
     var columnaInicio = origen.columnaInicio;
     var duracion = origen.duracion;
-
   
     quitarMarcadoresOriginales(tabla, filaInicio, columnaInicio, duracion, ubicacionArrastrada);
-
+  
     var columna = celda.cellIndex;
     var nuevaFila = encontrarFilaParaCelda(tabla, celda);
     if (nuevaFila === -1) {
       nuevaFila = celda.parentElement.rowIndex;
     }
     var nuevaColumna = columna;
+  
     var hayCeldasOcupadasEnRango = rangoTieneCeldasOcupadas(tabla, nuevaColumna, nuevaFila, duracion);
     if (hayCeldasOcupadasEnRango) {
       mostrarAlerta('No se puede colocar la actividad: el rango incluye celdas marcadas como ocupadas.', 'error');
       return;
     }
+  
+    function hayConflictoDeUbicacion(tabla, nuevaColumna, nuevaFila, duracion, ubicacionArrastrada, actividadArrastrada) {
+      for (let r = nuevaFila; r < nuevaFila + duracion && r < tabla.rows.length; r++) {
+        const celda = tabla.rows[r].cells[nuevaColumna];
+        if (!celda) continue;
+  
+        const visibles = getVisiblesInCell(celda);
+        for (let v = 0; v < visibles.length; v++) {
+          const otra = visibles[v];
+          if (otra === actividadArrastrada) continue;
+          const ubic = otra._ubicacion || '';
+          if (ubic === ubicacionArrastrada) {
+            return true;
+          }
+        }
+  
+        const ocultos = celda.querySelectorAll('.actividad-oculta');
+        for (let o = 0; o < ocultos.length; o++) {
+          const marcador = ocultos[o];
+          if (marcador === actividadArrastrada) continue;
+          const ubic = marcador._ubicacion || '';
+          if (ubic === ubicacionArrastrada) {
+            return true;
+          }
+        }
+      }
+      return false;
+    }
+  
+    if (hayConflictoDeUbicacion(tabla, nuevaColumna, nuevaFila, duracion, ubicacionArrastrada, actividadArrastrada)) {
+      mostrarAlerta('Ya existe una actividad en esta ubicación', 'error');
+      return;
+    }
+  
     var hayContenidoEnRango = contenidoCeldas(tabla, nuevaColumna, nuevaFila, duracion, ubicacionArrastrada);
-
+  
     if (!hayContenidoEnRango) {
       moverActividadDirecto(tabla, actividadArrastrada, nuevaFila, nuevaColumna, duracion);
     } else {
       insertarActividadEntreVisibles(tabla, actividadArrastrada, nuevaFila, nuevaColumna, duracion);
     }
+  
     actualizarPropiedadesElemento(actividadArrastrada, nuevaFila, nuevaColumna, tabla);
     obtenerMarcadores(tabla);
     distribuirActividades(tabla);
     guardarHorarioEnLocalStorage();
     actualizarHorasDisponibles();
   }
+  
 
   celda.addEventListener('dragover', onDragOver);
   celda.addEventListener('drop', onDrop);
