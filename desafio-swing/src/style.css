@@ -13,13 +13,14 @@
 
     --radio-botones: 0.5rem;
     --radio-cards: 0.3rem;
-    --altura-fila: 50px;
+    --altura-fila: 30px;
   }
 
   @import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Poppins:wght@400;500;600&family=Playfair+Display:wght@600&family=Raleway:wght@400;600&display=swap');
   
   * { box-sizing: border-box; }
-  html,body { height: 100%; }
+  html,body { height: 100%; 
+    font-size: 10px; }
   
   body {
     font-family: "Poppins", sans-serif;
@@ -28,7 +29,9 @@
     background-color: var(--fondo); 
   }
   
-  
+  label {
+    font-size: 10px;
+}
 
   .breadcrumbs {
     position: absolute;
@@ -37,7 +40,7 @@
     z-index: 10;
     border-radius: 6px;
     font-family: "Bebas Neue", sans-serif;
-    font-size: 20px;
+    font-size: 15px;
   }
   
   .breadcrumbs ul { display: flex; list-style: none; margin: 0; padding: 0; }
@@ -49,7 +52,7 @@
 
   header {
     position: relative;
-    height: 125px;
+    height: 90px;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -69,15 +72,15 @@
   .foco.rojo { background: rgba(245,177,140,0.15); top: -50px; left: -50px; }
   .foco.amarillo { background: rgba(245,215,110,0.12); bottom: -50px; right: -50px; }
   
-  .logo { height: 180px; width: auto; position: relative; z-index: 1; border-radius: 10px; }
+  .logo { height: 130px; width: auto; position: relative; z-index: 1; border-radius: 10px; }
   .titulos { display:flex; flex-direction:column; align-items:center; }
-  h2 { margin:0; font-weight:900; color:var(--azul-oscuro); font-size:30px; }
+  h2 { margin:0; font-weight:900; color:var(--azul-oscuro); font-size:20px; }
   
 
   .navbar {
     position: sticky;
     top: 0;
-    z-index: 10;
+    z-index: 100;
     background: var(--azul-opaco);
     display: flex;
     justify-content: center;
@@ -92,7 +95,7 @@
     text-decoration: none;
     color: white;
     font-weight: 400;
-    font-size: 22px;
+    font-size: 17px;
     border-bottom: 3px solid transparent;
   }
   .nav-links a:hover { color: var(--amarillo); border-bottom-color: var(--amarillo); }
@@ -105,7 +108,7 @@
     background-position: top center;
     background-repeat: no-repeat;
     display: flex;
-    padding: 40px;
+    padding: 5%;
     justify-content: center;
     align-items: flex-start;
     gap: 5%;
@@ -118,17 +121,20 @@
     padding: 25px;
     box-shadow: 0 4px 15px rgba(0,0,0,0.15);
     flex: 1 1 30%;
-    max-width: 600px;
-    min-width: 300px;
+    max-width: 30%;
+    min-width: 200px;
   }
   
   section.horario {
+    position:sticky;
+    top:70px;
+    z-index:90;
     background: rgba(255,255,255,0.85);
     backdrop-filter: blur(6px);
     padding: 50px;
     box-shadow: 0 4px 15px rgba(0,0,0,0.15);
     flex: 2 1 65%;
-    max-width: 900px;
+    max-width: 70%;
     min-width: 300px;
   }
   
@@ -181,7 +187,7 @@
   
   .tabla-horario tbody { position: relative; }
   .tabla-horario td, .tabla-horario th { border: 1px solid rgba(0,0,0,0.1); }
-  
+  .tabla-horario td.descanso { border: 2px solid var(--azul-oscuro); }
   .tabla-horario th {
     color: var(--azul-oscuro);
     text-align: left;
@@ -202,6 +208,12 @@
 
   .ocupada{
     background-color:var(--azul-claro);
+  }
+
+  .descanso{
+    color:white;
+    background-color:var(--azul-oscuro);
+    border-color:var(--azul-oscuro);
   }
   
 
@@ -228,7 +240,7 @@
   .etiqueta {
     display: inline-block;
     width: 80%;
-    padding: 4px 6px;
+    padding: 2px 4px;
     border-radius: 0.5rem;
     font-size: 0.8rem;
     font-weight: 600;
@@ -259,21 +271,24 @@
     position: absolute;
     background: #fff;
     border: 1px solid var(--azul-oscuro);
-    padding: 20px 30px;
     box-shadow: 0 2px 6px rgba(0,0,0,0.2);
     z-index: 1000;
-    max-width: 300px;
     font-size: 14px;
     display: none;
     border-radius: 0.5rem;
+      max-width: 20%;      
+      font-size: 10px;        
+      padding: 1% 2%;  
   }
+
   .info button {
     color: var(--azul-oscuro);
     background: transparent;
     border: none;
-    font-size: 16px;
     cursor: pointer;
-    padding: 5px;
+      max-width: 20%;      
+      font-size: 10px;        
+      padding: 1% 2%; 
     margin: 2px;
   }
 
@@ -313,7 +328,7 @@
   footer p { margin:0; font-size:10px; opacity:0.8; }
   
 
-  @media (max-width: 900px) {
+  @media (max-width: 800px) {
     main { flex-direction: column; padding: 20px; }
     section.formulario, section.horario { min-width: 0; width: 100%; max-width: 100%; padding: 20px; }
     .logo { height: 120px; }

@@ -82,7 +82,7 @@ function calcularIndicesHoras(horaInicio, horaFin) {
 }
 
 function crearElementoActividad(datos, indexInicio, indexFin) {
-  const alturaBase = 50;
+  const alturaBase = 30;
   const duracion = indexFin - indexInicio + 1;
   datos.infoExtra += 'Duración en horas: ' + duracion;
 
@@ -134,7 +134,7 @@ export function registrarActividad() {
     const { indexInicio, indexFin } = calcularIndicesHoras(datos.horaInicio, datos.horaFin);
 
     if (indexInicio === -1 || indexFin === -1 || indexFin < indexInicio) {
-      alert('Rango de horas inválido');
+      mostrarAlerta('Rango de horas inválido', 'error');
       return;
     }
 

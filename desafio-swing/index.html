@@ -9,7 +9,7 @@
 </head>
 <body>
 
-  <nav class="breadcrumbs">
+  <nav class="breadcrumbs" aria-label="ruta de navegación">
     <ul>
       <li><a href="#">Inicio</a></li>
       <li>›</li>
@@ -26,7 +26,7 @@
   </header>
   
   
-  <nav class="navbar">
+  <nav class="navbar" aria-label="barra de navegación">
     <ul class="nav-links">
       <li><a href="#">Inicio</a></li>
       <li>|</li>
@@ -39,75 +39,85 @@
   
 
   <main>
-    <section class="formulario">
-      <h2>Añadir Actividad</h2>
+    <section class="formulario" role="form" aria-labelledby="titulo-formulario">
+      <h2 id="titulo-formulario">Añadir Actividad</h2>
       <form id="form-actividad">
+    
         <label for="tipo">Tipo de actividad:</label>
-        <select id="tipo" required>
+        <select id="tipo" required aria-required="true" aria-describedby="error-tipo">
           <option value="">--Seleccione--</option>
           <option value="clase">Clase</option>
           <option value="actividad">Actividad</option>
         </select>
+        <div class="error-message" id="error-tipo" aria-live="polite"></div>
     
         <div id="clase-opciones">
           <label for="profesores">Profesores/as:</label>
-          <select id="profesores" multiple>
+          <select id="profesores" multiple aria-required="true" aria-describedby="error-profesores">
             <option value="Marta">Marta</option>
             <option value="Pedro">Pedro</option>
             <option value="Miguel">Miguel</option>
           </select>
+          <div class="error-message" id="error-profesores" aria-live="polite"></div>
     
           <label for="estilo">Estilo:</label>
-          <input type="text" id="estilo" placeholder="Lindy Hop, Shag...">
+          <input type="text" id="estilo" placeholder="Lindy Hop, Shag..." aria-required="true" aria-describedby="error-estilo">
+          <div class="error-message" id="error-estilo" aria-live="polite"></div>
     
           <label for="nivel">Nivel:</label>
-          <select id="nivel">
+          <select id="nivel" aria-required="true" aria-describedby="error-nivel">
             <option value="Básico">Básico</option>
             <option value="Intermedio">Intermedio</option>
             <option value="Avanzado">Avanzado</option>
           </select>
+          <div class="error-message" id="error-nivel" aria-live="polite"></div>
     
           <label for="sala">Sala:</label>
-          <select id="sala" required>
+          <select id="sala" required aria-required="true" aria-describedby="error-sala">
             <option value="">--Seleccione--</option>
             <option value="Be Hopper">Be Hopper</option>
             <option value="New Orleans">New Orleans</option>
             <option value="Savoy">Savoy</option>
           </select>
+          <div class="error-message" id="error-sala" aria-live="polite"></div>
         </div>
     
         <div id="actividad-opciones">
           <label for="tipo-act">Tipo de actividad:</label>
-          <select id="tipo-act">
+          <select id="tipo-act" aria-required="true" aria-describedby="error-tipo-act" required>
             <option value="">--Seleccione--</option>
             <option value="Taster">Taster</option>
             <option value="Social">Social</option>
             <option value="Concierto">Concierto</option>
             <option value="Mix & Match">Mix & Match</option>
           </select>
-          
+          <div class="error-message" id="error-tipo-act" aria-live="polite"></div>
     
           <label for="banda">Banda en directo:</label>
-          <select id="banda">
+          <select id="banda" aria-describedby="error-banda">
             <option value="No">No</option>
             <option value="Sí">Sí</option>
           </select>
+          <div class="error-message" id="error-banda" aria-live="polite"></div>
     
           <label for="profesores2">Profesores/as:</label>
-          <select id="profesores2" multiple>
+          <select id="profesores2" multiple aria-describedby="error-profesores2">
             <option value="Marta">Marta</option>
             <option value="Pedro">Pedro</option>
             <option value="Miguel">Miguel</option>
           </select>
+          <div class="error-message" id="error-profesores2" aria-live="polite"></div>
     
           <label for="estilo-act">Estilo:</label>
-          <input type="text" id="estilo-act" placeholder="Lindy Hop, Shag...">
+          <input type="text" id="estilo-act" placeholder="Lindy Hop, Shag..." aria-describedby="error-estilo-act">
+          <div class="error-message" id="error-estilo-act" aria-live="polite"></div>
     
           <label for="descripcion">Descripción:</label>
-          <textarea id="descripcion" rows="3"></textarea>
+          <textarea id="descripcion" rows="3" aria-describedby="error-descripcion"></textarea>
+          <div class="error-message" id="error-descripcion" aria-live="polite"></div>
     
           <label for="ubicacion">Ubicación:</label>
-          <select id="ubicacion">
+          <select id="ubicacion" aria-required="true" aria-describedby="error-ubicacion">
             <option value="">--Seleccione--</option>
             <option value="Be Hopper">Be Hopper</option>
             <option value="New Orleans">New Orleans</option>
@@ -116,71 +126,125 @@
             <option value="Parque de Gasset">Parque de Gasset</option>
             <option value="Prado">Prado</option>
           </select>
+          <div class="error-message" id="error-ubicacion" aria-live="polite"></div>
         </div>
     
         <label for="dia">Día:</label>
-        <select id="dia" required>
+        <select id="dia" required aria-required="true" aria-describedby="error-dia">
           <option value="">--Seleccione--</option>
           <option value="1">Viernes</option>
           <option value="2">Sábado</option>
           <option value="3">Domingo</option>
         </select>
+        <div class="error-message" id="error-dia" aria-live="polite"></div>
     
         <label for="hora">Hora inicio:</label>
-<select id="hora" required>
-  <option value="">--Seleccione--</option>
-  <option value="10:30">10:30</option>
-  <option value="11:35">11:35</option>
-  <option value="12:40">12:40</option>
-  <option value="17:00">17:00</option>
-  <option value="18:05">18:05</option>
-  <option value="19:10">19:10</option>
-  <option value="20:15">20:15</option>
-  <option value="21:20">21:20</option>
-  <option value="22:25">22:25</option>
-</select>
-
-<label for="hora-fin">Hora fin:</label>
-<select id="hora-fin" required>
-  <option value="">--Seleccione--</option>
-  <option value="11:30">11:30</option>
-  <option value="12:35">12:35</option>
-  <option value="13:40">13:40</option>
-  <option value="18:00">18:00</option>
-  <option value="19:05">19:05</option>
-  <option value="20:10">20:10</option>
-  <option value="21:15">21:15</option>
-  <option value="22:20">22:20</option>
-  <option value="23:30">23:30</option>
-</select>
+        <select id="hora" required aria-required="true" aria-describedby="error-hora">
+          <option value="">--Seleccione--</option>
+          <option value="10:30">10:30</option>
+          <option value="11:35">11:35</option>
+          <option value="12:40">12:40</option>
+          <option value="17:00">17:00</option>
+          <option value="18:05">18:05</option>
+          <option value="19:10">19:10</option>
+          <option value="20:15">20:15</option>
+          <option value="21:20">21:20</option>
+          <option value="22:25">22:25</option>
+        </select>
+        <div class="error-message" id="error-hora" aria-live="polite"></div>
+    
+        <label for="hora-fin">Hora fin:</label>
+        <select id="hora-fin" required aria-required="true" aria-describedby="error-hora-fin">
+          <option value="">--Seleccione--</option>
+          <option value="11:30">11:30</option>
+          <option value="12:35">12:35</option>
+          <option value="13:40">13:40</option>
+          <option value="18:00">18:00</option>
+          <option value="19:05">19:05</option>
+          <option value="20:10">20:10</option>
+          <option value="21:15">21:15</option>
+          <option value="22:20">22:20</option>
+          <option value="23:30">23:30</option>
+        </select>
+        <div class="error-message" id="error-hora-fin" aria-live="polite"></div>
+    
         <button id="submit" type="submit">Añadir</button>
       </form>
     </section>
+    
 
-    <section class="horario">
-      <h2>Horario del Festival</h2>
-      <br><br><br>
+    <section class="horario" aria-labelledby="titulo-horario">
+      <h2 id="titulo-horario">Horario del Festival</h2>
+    
       <table class="tabla-horario">
+        <caption>Haz clic o arrastra actividades para gestionar el horario</caption>
+    
         <thead>
           <tr>
-            <th class ="dia" colspan="2">Hora</th>
-            <th class="dia">Viernes</th>
-            <th class="dia">Sábado</th>
-            <th class="dia">Domingo</th>
+            <th colspan="2" scope="colgroup">Hora</th>
+            <th class="dia" id="viernes" scope="col">Viernes</th>
+            <th class="dia" id="sabado" scope="col">Sábado</th>
+            <th class="dia" id="domingo" scope="col">Domingo</th>
           </tr>
         </thead>
+    
         <tbody>
-          <tr><th colspan="2">10:30  11:30</th><td class="ocupada"></td><td></td><td></td></tr>
-          <tr><th colspan="2">11:35  12:35</th><td class="ocupada"></td><td></td><td></td></tr>
-          <tr><th colspan="2">12:40  13:40</th><td class="ocupada"></td><td></td><td></td></tr>
-          <tr><th colspan="2">17:00  18:00</th><td class="ocupada"></td><td></td><td></td></tr>
-          <tr><th colspan="2">18:05  19:05</th><td class="ocupada"></td><td></td><td></td></tr>
-          <tr><th colspan="2">19:10  20:10</th><td class="ocupada"></td><td></td><td></td></tr>
-          <tr><th colspan="2">20:15  21:15</th><td></td><td></td><td class="ocupada"></td></tr>
-          <tr><th colspan="2">21:20  22:20</th><td></td><td></td><td class="ocupada"></td></tr>
-          <tr><th colspan="2">22:25  23:25</th><td></td><td></td><td class="ocupada"></td></tr>
+          <tr>
+            <th colspan="2" scope="row">10:30 11:30</th>
+            <td class="ocupada"></td><td></td><td></td>
+          </tr>
+    
+          <tr>
+            <th colspan="2" scope="row">11:35 12:35</th>
+            <td class="ocupada"></td><td></td><td></td>
+          </tr>
+    
+          <tr>
+            <th colspan="2" scope="row">12:40 13:40</th>
+            <td class="ocupada"></td><td></td><td></td>
+          </tr>
+    
+          <tr>
+            <td class="ocupada descanso" colspan="2" scope="row">Descanso</td>
+            <td class="ocupada descanso"></td>
+            <td class="ocupada descanso"></td>
+            <td class="ocupada descanso"></td>
+          </tr>
+    
+          <tr>
+            <th colspan="2" scope="row">17:00 18:00</th>
+            <td class="ocupada"></td><td></td><td></td>
+          </tr>
+    
+          <tr>
+            <th colspan="2" scope="row">18:05 19:05</th>
+            <td class="ocupada"></td><td></td><td></td>
+          </tr>
+    
+          <tr>
+            <th colspan="2" scope="row">19:10 20:10</th>
+            <td class="ocupada"></td><td></td><td></td>
+          </tr>
+    
+          <tr>
+            <th colspan="2" scope="row">20:15 21:15</th>
+            <td></td><td></td><td class="ocupada"></td>
+          </tr>
+    
+          <tr>
+            <th colspan="2" scope="row">21:20 22:20</th>
+            <td></td><td></td><td class="ocupada"></td>
+          </tr>
+    
+          <tr>
+            <th colspan="2" scope="row">22:25 23:25</th>
+            <td></td><td></td><td class="ocupada"></td>
+          </tr>
         </tbody>
       </table>
+    </section>
+    
+    
 
       
     </section>

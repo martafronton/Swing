@@ -1,5 +1,6 @@
 import { guardarHorarioEnLocalStorage } from './storageHorario.js';
 import { actualizarHorasDisponibles } from './gestorHoras.js';
+import { verificarBorrado } from './informar.js';
 
 let actividadArrastrada = null;
 
@@ -97,7 +98,8 @@ export class Actividad {
     contenido.innerHTML = detalles;
 
     btnEliminar.onclick = () => {
-      if (elemento) {
+      if (!elemento) return;
+      verificarBorrado('¿Seguro que quieres borrar esta actividad?', 'error', () => {
         const parent = elemento.parentElement;
         if (parent && parent.contains(elemento)) {
           parent.removeChild(elemento);
@@ -105,8 +107,13 @@ export class Actividad {
         guardarHorarioEnLocalStorage();
         actualizarHorasDisponibles();
         popup.style.display = 'none';
-      }
+      });
     };
+
+    popup.style.display = 'block';
+    popup.style.top = `${y + 10}px`;
+    popup.style.left = `${x + 10}px`;
+
 
     btnCerrar.onclick = () => {
       popup.style.display = 'none';

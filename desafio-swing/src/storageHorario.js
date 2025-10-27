@@ -66,7 +66,7 @@ export function cargarHorarioDesdeLocalStorage() {
     return;
   }
 
-  var alturaBase = 50;
+  var alturaBase = 30;
 
   for (var k = 0; k < actividades.length; k++) {
     var data = actividades[k];

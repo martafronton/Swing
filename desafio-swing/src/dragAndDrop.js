@@ -255,7 +255,7 @@ export function prepararDrop(celda, tabla) {
   
     var hayCeldasOcupadasEnRango = rangoTieneCeldasOcupadas(tabla, nuevaColumna, nuevaFila, duracion);
     if (hayCeldasOcupadasEnRango) {
-      mostrarAlerta('No se puede colocar la actividad: el rango incluye celdas marcadas como ocupadas.', 'error');
+      mostrarAlerta('No se puede colocar la actividad: el rango incluye celdas ocupadas.', 'error');
       return;
     }
   
@@ -296,8 +296,10 @@ export function prepararDrop(celda, tabla) {
   
     if (!hayContenidoEnRango) {
       moverActividadDirecto(tabla, actividadArrastrada, nuevaFila, nuevaColumna, duracion);
+      mostrarAlerta('Actividad movida correctamente', 'success');
     } else {
       insertarActividadEntreVisibles(tabla, actividadArrastrada, nuevaFila, nuevaColumna, duracion);
+      mostrarAlerta('Actividad movida correctamente', 'success');
     }
   
     actualizarPropiedadesElemento(actividadArrastrada, nuevaFila, nuevaColumna, tabla);

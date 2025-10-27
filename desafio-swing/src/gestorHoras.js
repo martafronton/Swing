@@ -13,18 +13,15 @@ export function actualizarHorasDisponibles() {
   const sala = salaSelect.value || '';
   const ubicacion = ubicacionSelect.value || '';
 
-
   horaInicioSelect.innerHTML = '<option value="">--Seleccione--</option>';
   horaFinSelect.innerHTML = '<option value="">--Seleccione--</option>';
 
   const filas = tabla.rows;
   const esViernes = dia === 1;
-  let inicio = 0;
-  if (esViernes) {
-    inicio = filas.length - 3;
-  }
+  let inicio = esViernes ? filas.length - 3 : 0;
 
   const horasDisponibles = [];
+
 
   for (let i = inicio; i < filas.length; i++) {
     const fila = filas[i];
@@ -33,58 +30,69 @@ export function actualizarHorasDisponibles() {
     const textoHora = fila.cells[0].textContent.trim();
     const [hInicio, hFin] = textoHora.split(/\s+/);
 
-    let ocupada = false;
-    const celda = fila.cells[dia];
-    const actividades = celda.querySelectorAll('.actividad, .actividad-oculta');
-
-    for (let elemento of actividades) {
-        let lugar;
-        if (elemento.classList.contains('actividad-oculta')) {
-          lugar = elemento._ubicacion || '';
-        } else {
-          lugar = Actividad.crearActividad(elemento).ubicacion;
-        }
-        
-
-      if ((lugar === ubicacion || lugar === sala) && SALAS.includes(lugar)) {
-        ocupada = true;
-        break;
-      }
-    }
-
-    if (!ocupada) {
-      horasDisponibles.push({ hInicio, hFin });
-      horaInicioSelect.innerHTML += `<option value="${hInicio}">${hInicio}</option>`;
+    if (!celdaOcupada(fila, ubicacion, sala)) {
+      horasDisponibles.push({ hInicio, hFin, filaIndex: i });
+      horaInicioSelect.innerHTML += `<option value="${hInicio}" data-fila="${i}">${hInicio}</option>`;
     }
   }
+
 
   function actualizarHoraFin() {
-    const horaInicio = horaInicioSelect.value;
     horaFinSelect.innerHTML = '<option value="">--Seleccione--</option>';
-    for (let { hFin } of horasDisponibles) {
-      if (!horaInicio || hFin > horaInicio) {
-        horaFinSelect.innerHTML += `<option value="${hFin}">${hFin}</option>`;
+    const horaInicio = horaInicioSelect.value;
+    if (!horaInicio) return;
+
+    const filaInicio = parseInt(horaInicioSelect.selectedOptions[0].dataset.fila);
+
+    for (let r = filaInicio; r < filas.length; r++) {
+      if (celdaOcupada(filas[r], ubicacion, sala)) break;
+
+      const textoHora = filas[r].cells[0].textContent.trim();
+      const hFinR = textoHora.split(/\s+/)[1] || textoHora.split(/\s+/)[0];
+
+      if (hFinR > horaInicio) {
+        horaFinSelect.innerHTML += `<option value="${hFinR}">${hFinR}</option>`;
       }
     }
   }
+
   horaInicioSelect.addEventListener('change', actualizarHoraFin);
 }
 
+
+function celdaOcupada(fila, ubicacion, sala) {
+  if (!fila) return false;
+  const celda = fila.cells[diaSelect.value];
+  if (!celda) return false;
+
+  if (celda.classList.contains('ocupada')) return true;
+
+  const actividades = Array.from(celda.querySelectorAll('.actividad, .actividad-oculta'));
+  for (let act of actividades) {
+    let lugar;
+    if (act.classList.contains('actividad-oculta')) {
+      lugar = act._ubicacion || '';
+    } else {
+      lugar = Actividad.crearActividad(act).ubicacion;
+    }
+    if ((lugar === ubicacion || lugar === sala) && SALAS.includes(lugar)) return true;
+  }
+
+  return false;
+}
+
 export function contenidoCeldas(tabla, dia, indexInicio, indexFin, ubicacion) {
-    for (let r = indexInicio; r <= indexFin && r < tabla.rows.length; r++) {
-      const fila = tabla.rows[r];
-      if (!fila) continue;
-      const celda = fila.cells[dia];
-      if (!celda) continue;
-      const visibles = Array.from(celda.querySelectorAll('.actividad'));
-      for (let i = 0; i < visibles.length; i++) {
-        const act = visibles[i];
-        if (!act.classList.contains('actividad-oculta')) {
-          if (act._ubicacion === ubicacion) {
-            return true; 
-          }
-        }
+  for (let r = indexInicio; r <= indexFin && r < tabla.rows.length; r++) {
+    const fila = tabla.rows[r];
+    if (!fila) continue;
+    const celda = fila.cells[dia];
+    if (!celda) continue;
+    const visibles = Array.from(celda.querySelectorAll('.actividad'));
+    for (let act of visibles) {
+      if (!act.classList.contains('actividad-oculta') && act._ubicacion === ubicacion) {
+        return true;
       }
     }
-    return false;
   }
+  return false;
+}
