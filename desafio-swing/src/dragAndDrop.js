@@ -5,6 +5,7 @@ import { calcularPosicionMovimiento, distribuirActividades } from './layoutHorar
 import { obtenerMarcadores } from './marcadores.js';
 import { actualizarHorasDisponibles } from './gestorHoras.js';
 import { guardarHorarioEnLocalStorage } from './storageHorario.js';
+const SALAS = ['Be Hopper', 'New Orleans', 'Savoy'];
 
 
 function getVisiblesInCell(celda) {
@@ -223,16 +224,19 @@ export function prepararDrop(celda, tabla) {
     var visiblesDestino = getVisiblesInCell(celda);
   
     var ubicacionArrastrada = actividadArrastrada._ubicacion || '';
-    var tipoArrastrado = actividadArrastrada._tipo || '';
   
     for (var aI = 0; aI < visiblesDestino.length; aI++) {
       var otra = visiblesDestino[aI];
       var ubicacionOtra = otra._ubicacion || '';
   
-      if (ubicacionArrastrada === ubicacionOtra && otra !== actividadArrastrada) {
-        mostrarAlerta('Ya existe una actividad en esta ubicación.', 'error');
+      if (
+        ubicacionArrastrada === ubicacionOtra &&
+        SALAS.includes(ubicacionArrastrada)
+      ) {
+        mostrarAlerta('Ya existe una actividad en esta sala en ese horario.', 'error');
         return;
       }
+      
       if (otra.classList.contains('ocupada')) {
         mostrarAlerta('El evento no está disponible a esa hora', 'error');
         return;
@@ -269,9 +273,13 @@ export function prepararDrop(celda, tabla) {
           const otra = visibles[v];
           if (otra === actividadArrastrada) continue;
           const ubic = otra._ubicacion || '';
-          if (ubic === ubicacionArrastrada) {
+          if (
+            ubic === ubicacionArrastrada &&
+            SALAS.includes(ubicacionArrastrada)
+          ) {
             return true;
           }
+          
         }
   
         const ocultos = celda.querySelectorAll('.actividad-oculta');
@@ -279,9 +287,13 @@ export function prepararDrop(celda, tabla) {
           const marcador = ocultos[o];
           if (marcador === actividadArrastrada) continue;
           const ubic = marcador._ubicacion || '';
-          if (ubic === ubicacionArrastrada) {
+          if (
+            ubic === ubicacionArrastrada &&
+            SALAS.includes(ubicacionArrastrada)
+          ) {
             return true;
           }
+          
         }
       }
       return false;
